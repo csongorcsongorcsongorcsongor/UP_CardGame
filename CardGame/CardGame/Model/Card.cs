@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CardGame.ViewModel
+namespace CardGame.Model
 {
     public class Card
     {
