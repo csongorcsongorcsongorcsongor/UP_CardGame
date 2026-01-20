@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CardGame.Model;
 
 namespace CardGame.ViewModel
 {
@@ -17,7 +18,7 @@ namespace CardGame.ViewModel
         protected string _name;
         protected int _healt;
         protected int _shield;
-        protected Card[] _nextCard;
+        protected Card _nextCard;
         protected Card[] _cards;
     }
 }
