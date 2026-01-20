@@ -68,13 +68,16 @@ namespace CardGame.Model
         {
             if (damage > 0) 
             {
-                _shield -= damage;
-                _health -= damage;
-                //
+                int dmgleft = 0;
+                if (_shield > 0) {
+                    dmgleft = _shield -= damage;
+                    if (dmgleft <= 0)
+                    {
+                        _health += dmgleft;
+                        OnPropertyChanged(nameof(Health));
+                    }
+                }
             }
-
-
-
             OnPropertyChanged(nameof(Health));
         }
 
