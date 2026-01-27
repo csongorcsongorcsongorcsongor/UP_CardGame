@@ -12,7 +12,10 @@ namespace CardGame.ViewModel
     {
         public string Name { get; set; }
         public string Health { get{ return Convert.ToString(_health) + Convert.ToString(_shield); }}
-        public string NextCard { get; set; }
+        public Card NextCard
+        {
+            get { return _nextCard; }
+        }
         public Actions NextMove { get { return _nextCard.Action ; } }
 
         protected Random random;
