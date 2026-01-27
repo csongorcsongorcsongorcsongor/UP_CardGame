@@ -50,7 +50,7 @@ namespace CardGame.Model
             }
 
             _minion.UseCard();
-            _player.GenerateCurrentHand();
+            _player.GenerateCurrentHeand();
 
             CardUseEvent?.Invoke(this, EventArgs.Empty);
             NextRoundEvent?.Invoke(this, EventArgs.Empty);
