@@ -12,7 +12,7 @@ namespace CardGame.ViewModel
     public class CardGameViewModel:ViewModelBase
     {
         private CardGameModel _model;
-        public RelayCommand UseCardCommand { get; set; }
+        public RelayCommand<int> UseCardCommand { get; set; }
         public RelayCommand NextRoundCommand { get; set; }
 
         public CardGameViewModel(CardGameModel model) 
@@ -23,8 +23,8 @@ namespace CardGame.ViewModel
             Enabled3 = true;
             _model.CardUseEvent += model_CardUse;
             _model.NextRoundEvent += model_NextRoundEvent;
-            UseCardCommand = new UseCardCommand(_model.PlayerCardUse());
-            NextRoundCommand = new UseCardCommand(_model.NextRound());
+            UseCardCommand = new RelayCommand<int>(_model.PlayerCardUse);
+            NextRoundCommand = new RelayCommand(_model.NextRound);
 
         }
         private bool _enabled1;
