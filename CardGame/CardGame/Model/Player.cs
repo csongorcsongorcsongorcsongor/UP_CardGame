@@ -11,9 +11,9 @@ namespace CardGame.Model
     public class Player:Entity
     {
         private Card[] _currentHand;
-        public string Card1 { get { return Convert.ToString(_currentHand[0]); } }
-        public string Card2 { get { return Convert.ToString(_currentHand[1]); } }
-        public string Card3 { get { return Convert.ToString(_currentHand[2]); } }
+        public Card Card1 { get { return _currentHand[0]; } }
+        public Card Card2 { get { return _currentHand[1]; } }
+        public Card Card3 { get { return _currentHand[2]; } }
 
         private void GenerateStats() {
             _name = "Hero";
