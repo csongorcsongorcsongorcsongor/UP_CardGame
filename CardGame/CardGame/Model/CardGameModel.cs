@@ -18,32 +18,49 @@ namespace CardGame.Model
         public event EventHandler CardUseEvent;
         public event EventHandler NextRoundEvent;
 
-        public CardGameModel() 
+        
+        public CardGameModel(Player player, Minion minion) 
         {
-            _player = new Player();
-            _minion = new Minion();
+            _player = player;
+            _minion = minion;
         }
-
-        public void PlayerCardUse(object? index)
+        protected void OnCardUse()
         {
-            if (index is string s && int.TryParse(s, out int i))
+            CardUseEvent?.Invoke(this, EventArgs.Empty);
+        }
+        protected void OnNextRound()
+        {
+            NextRoundEvent?.Invoke(this, EventArgs.Empty);
+        }
+        public void PlayerCardUse(object index)
+        {
+            int cardIndex;
+            if(index is string indexString)
             {
-                Card card = _player.GetCard(i);
-
-                if (card.Action == Card.Actions.Attack)
-                {
-                    _minion.Damage(card.Value);
-                }
-
-                _player.UseCard(i);
-                CardUseEvent?.Invoke(this, EventArgs.Empty);
+                cardIndex = int.Parse(indexString);
             }
+            else
+            {
+                cardIndex = (int)index;
+            }
+            Card card = _player.GetCard(cardIndex);
+            if(card.Action == Card.Actions.Attack)
+            {
+                _minion.Damage(card.Value);
+            }
+            _player.UseCard(cardIndex);
+            CardUseEvent?.Invoke(this, EventArgs.Empty);
         }
 
         public void NextRound()
         {
             Card savedCard = _minion.NextCard;
 
+            if(savedCard== null)
+            {
+                NextRoundEvent?.Invoke(this, EventArgs.Empty);
+                return;
+            }
             if (savedCard.Action == Card.Actions.Attack)
             {
                 _player.Damage(savedCard.Value);

@@ -24,7 +24,9 @@ namespace CardGame
         private void App_Startup(object sender, StartupEventArgs e)
         {
             _window = new MainWindow();
-            _model = new CardGameModel();
+            Player player = new Player();
+            Minion minion = new Minion();
+            _model = new CardGameModel(player, minion);
             _viewModel = new CardGameViewModel(_model);
             _window.DataContext = _viewModel;
             _combatPage = new CombatPage();

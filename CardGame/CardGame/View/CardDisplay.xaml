@@ -6,15 +6,14 @@
              xmlns:local="clr-namespace:CardGame.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
-        <Label Content="{Binding Name}"/>
-        <Label Content="{Binding Action}"/>
-        <Label Content="{Binding Value}"/>
+        <Label Content="{Binding Name}" Grid.Row="0"></Label>
+        <Label Content="{Binding Action}" Grid.Row="1"></Label>
+        <Label Content="{Binding Value}" Grid.Row="2"></Label>
     </Grid>
 </UserControl>

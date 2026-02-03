@@ -21,24 +21,26 @@ namespace CardGame.Model
             _shield = 10;
         }
         private void GenerateDeck() {
-            _cards[0] = new Card("Basic Attack", Card.Actions.Attack, 10);
-            _cards[1] = new Card("Basic Attack", Card.Actions.Attack, 10);
-            _cards[2] = new Card("Basic Attack", Card.Actions.Attack, 10);
-            _cards[2] = new Card("Basic Heal", Card.Actions.Heal, 2);
-            _cards[2] = new Card("Basic Heal", Card.Actions.Heal, 2);
-            _cards[2] = new Card("Basic Shield", Card.Actions.Shield, 4);
-            _cards[2] = new Card("Basic Shield", Card.Actions.Shield, 4);
-            _cards[2] = new Card("Advanced Attack", Card.Actions.Attack, 20);
-            _cards[2] = new Card("Advanced Heal", Card.Actions.Heal, 10);
-            _cards[2] = new Card("Advanced Shield", Card.Actions.Shield, 18);
+            _cards = new Card[10];
+            int index = 0;
+            for(int i = 0; i < 3; i++) { _cards[index++] = new Card("Basic Attack", Card.Actions.Attack, 10); }
+            for(int i = 0; i < 2; i++) { _cards[index++] = new Card("Basic Heal", Card.Actions.Heal, 2); }
+            for(int i = 0; i < 2; i++) { _cards[index++] = new Card("Basic Shield", Card.Actions.Shield, 4); }
 
+            _cards[index++] = new Card("Basic Attack", Card.Actions.Attack, 20);
+            _cards[index++] = new Card("Basic Heal", Card.Actions.Heal, 10);
+            _cards[index++] = new Card("Basic Shield", Card.Actions.Shield, 8);
 
         }
         public void GenerateCurrentHand() {
-            random = new Random();
-            _currentHand[0] = _cards[random.Next(0, 10)];
-            _currentHand[1] = _cards[random.Next(0, 10)];
-            _currentHand[2] = _cards[random.Next(0, 10)];
+            _currentHand = new Card[3];
+
+            if (random == null) random = new Random();
+            for (int i = 0; i < _currentHand.Length; i++)
+            {
+                int randomIndex = random.Next(_cards.Length);
+                _currentHand[i] = _cards[randomIndex];
+            }
         }
 
         public void UseCard(int index) {
@@ -56,23 +58,21 @@ namespace CardGame.Model
 
         }
         public void Damage(int damage) {
-            
-            int leftshield;
-            if (_shield > 0) {
-               leftshield = _shield -= damage;
-                if (leftshield <= 0)
-                {
-                    _health += leftshield;
-                    OnPropertyChanged(nameof(_shield));
-                    OnPropertyChanged(nameof(_health));
-                }
-                
-                OnPropertyChanged(nameof(_shield));
-                OnPropertyChanged(nameof(_health));
+            int dmgleft = 0;
+            if (_shield >= damage)
+            {
+
+                _shield -= damage;
             }
-            
-            OnPropertyChanged(nameof(_shield));
-            OnPropertyChanged(nameof(_health));
+            else
+            {
+                dmgleft = damage - _shield;
+                _shield = 0;
+                _health -= dmgleft;
+                if (_health < 0) _health = 0;
+            }
+
+            OnPropertyChanged(nameof(Health));
 
         }
         public Card GetCard(int index) {
@@ -80,11 +80,13 @@ namespace CardGame.Model
         }
 
         public Player() {
+            _currentHand = new Card[3];
             _cards = new Card[10];
             _nextCard = new Card("", Card.Actions.Empty, 0);
             GenerateStats();
             GenerateDeck();
             GenerateCurrentHand();
+
         }
 
     }
