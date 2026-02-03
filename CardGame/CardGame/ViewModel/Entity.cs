@@ -11,7 +11,8 @@ namespace CardGame.ViewModel
     public abstract class Entity:ViewModelBase
     {
         public string Name { get; set; }
-        public string Health { get{ return Convert.ToString(_health) + Convert.ToString(_shield); }}
+        public string Health { get{ return Convert.ToString(_health) + "/"+ Convert.ToString(_maxHealth) + Convert.ToString(_shield); }}
+        public bool Dead { get { return _dead; }  }
         public Card NextCard
         {
             get { return _nextCard; }
@@ -24,5 +25,7 @@ namespace CardGame.ViewModel
         protected int _shield;
         protected Card _nextCard;
         protected Card[] _cards;
+        protected int _maxHealth;
+        protected bool _dead;
     }
 }
