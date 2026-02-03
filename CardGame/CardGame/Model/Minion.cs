@@ -45,6 +45,8 @@ namespace CardGame.Model
         private void PickNextCard()
         {
             _nextCard = _cards[r.Next(_cards.Length)];
+
+            OnPropertyChanged(nameof(NextCard));
             OnPropertyChanged(nameof(NextMove));
         }
 
@@ -66,18 +68,20 @@ namespace CardGame.Model
 
         public void Damage(int damage)
         {
-            if (damage > 0) 
-            {
+            
                 int dmgleft = 0;
-                if (_shield > 0) {
-                    dmgleft = _shield -= damage;
-                    if (dmgleft <= 0)
-                    {
-                        _health += dmgleft;
-                        OnPropertyChanged(nameof(Health));
-                    }
+                if (_shield >= damage) {
+                    
+                    _shield -= damage;
                 }
-            }
+                else
+                {
+                    dmgleft = damage - _shield;
+                    _shield = 0;
+                    _health -= dmgleft;
+                    if (_health < 0) _health = 0;
+                }
+            
             OnPropertyChanged(nameof(Health));
         }
 
