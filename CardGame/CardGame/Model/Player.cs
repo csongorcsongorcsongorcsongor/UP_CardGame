@@ -34,7 +34,7 @@ namespace CardGame.Model
 
 
         }
-        public void GenerateCurrentHeand() {
+        public void GenerateCurrentHand() {
             random = new Random();
             _currentHand[0] = _cards[random.Next(0, 10)];
             _currentHand[1] = _cards[random.Next(0, 10)];
@@ -84,7 +84,7 @@ namespace CardGame.Model
             _nextCard = new Card("", Card.Actions.Empty, 0);
             GenerateStats();
             GenerateDeck();
-            GenerateCurrentHeand();
+            GenerateCurrentHand();
         }
 
     }
