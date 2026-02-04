@@ -19,6 +19,7 @@ namespace CardGame.Model
             _name = "Hero";
             _health = 100;
             _shield = 10;
+            _maxHealth = _health;
         }
         private void GenerateDeck() {
             _cards = new Card[10];
@@ -44,36 +45,56 @@ namespace CardGame.Model
         }
 
         public void UseCard(int index) {
-            if (_currentHand[index].Action ==Card.Actions.Heal  )
+            if (!_dead)
             {
-                _health += _nextCard.Value;
-                OnPropertyChanged(nameof(_health));
-                _currentHand[index] = new Card("", Card.Actions.Empty, 0);
-            }
-            else if (_currentHand[index].Action == Card.Actions.Shield) {
-                _shield += _nextCard.Value;
-                OnPropertyChanged(nameof(_shield));
-                _currentHand[index] = new Card("", Card.Actions.Empty, 0);
-            }
+                if (_currentHand[index].Action == Card.Actions.Heal)
+                {
+                    _health += _nextCard.Value;
 
+                    if (_health > _maxHealth)
+                    {
+                        _health = _maxHealth;
+                    }
+                    OnPropertyChanged(nameof(_health));
+                    _currentHand[index] = new Card("", Card.Actions.Empty, 0);
+                }
+                else if (_currentHand[index].Action == Card.Actions.Shield)
+                {
+                    _shield += _nextCard.Value;
+                    OnPropertyChanged(nameof(_shield));
+                    _currentHand[index] = new Card("", Card.Actions.Empty, 0);
+                }
+            }
         }
         public void Damage(int damage) {
-            int dmgleft = 0;
-            if (_shield >= damage)
+            if (!_dead)
             {
+                int dmgleft = damage;
 
-                _shield -= damage;
+                if (_shield >= dmgleft)
+                {
+                    _shield -= dmgleft;
+                    dmgleft = 0;
+                }
+                else
+                {
+                    dmgleft -= _shield;
+                    _shield = 0;
+                }
+
+                if (dmgleft > 0)
+                {
+                    _health -= dmgleft;
+
+                    if (_health <= 0)
+                    {
+                        _health = 0;
+                        _dead = true;
+                    }
+                }
+
+                OnPropertyChanged(nameof(Health));
             }
-            else
-            {
-                dmgleft = damage - _shield;
-                _shield = 0;
-                _health -= dmgleft;
-                if (_health < 0) _health = 0;
-            }
-
-            OnPropertyChanged(nameof(Health));
-
         }
         public Card GetCard(int index) {
             return _currentHand[index];
@@ -88,6 +109,36 @@ namespace CardGame.Model
             GenerateCurrentHand();
 
         }
+        public void AddCardToDeck(Card card)
+        {
+            Card[] newCards = new Card[_cards.Length + 1];
 
+            for (int i = 0; i < _cards.Length; i++)
+            {
+                newCards[i] = _cards[i];
+            }
+
+            newCards[newCards.Length - 1] = card;
+            _cards = newCards;
+        }
+        public void AddShield(int index) 
+        {
+            _shield += index;
+            OnPropertyChanged(nameof(Health));
+        }
+        public void AddHealth(int index)
+        {
+            _health += index;
+            if(_health > _maxHealth)
+            {
+                _health = _maxHealth;
+            }
+            OnPropertyChanged(nameof(Health));
+        }
+        public void IncreaseMaxHealth(int index)
+        {
+            _maxHealth += index;
+            OnPropertyChanged(nameof(Health));
+        }
     }
 }

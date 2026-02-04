@@ -12,36 +12,14 @@ namespace CardGame.ViewModel
     public class CardGameViewModel:ViewModelBase
     {
         private CardGameModel _model;
-        private bool _enabled1;
-        private bool _enabled2;
-        private bool _enabled3;
-
-        public bool Enabled1
+        private bool _enabled;
+        public bool Enabled
         {
-            get { return _enabled1; }
+            get { return _enabled; }
             set
             {
-                _enabled1 = value;
-                OnPropertyChanged(nameof(Enabled1));
-            }
-        }
-
-        public bool Enabled2
-        {
-            get { return _enabled2; }
-            set
-            {
-                _enabled2 = value;
-                OnPropertyChanged(nameof(Enabled2));
-            }
-        }
-        public bool Enabled3
-        {
-            get { return _enabled3; }
-            set
-            {
-                _enabled3 = value;
-                OnPropertyChanged(nameof(Enabled3));
+                _enabled = value;
+                OnPropertyChanged(nameof(Enabled));
             }
         }
 
@@ -57,9 +35,7 @@ namespace CardGame.ViewModel
         public CardGameViewModel(CardGameModel model) 
         {
             _model = model;
-            Enabled1 = true;
-            Enabled2 = true;
-            Enabled3 = true;
+            Enabled = true;
             _model.CardUseEvent += model_CardUse;
             _model.NextRoundEvent += model_NextRoundEvent;
             UseCardCommand = new RelayCommand<object>(_model.PlayerCardUse);
@@ -68,15 +44,11 @@ namespace CardGame.ViewModel
         }
       
 
-        private void model_NextRoundEvent(object? s, EventArgs e) { 
-            Enabled1 = true;
-            Enabled2 = true;
-            Enabled3 = true;
+        private void model_NextRoundEvent(object? s, EventArgs e) {
+            Enabled = true;
         }
         private void model_CardUse(object? s ,EventArgs e) {
-            Enabled1 = false;
-            Enabled2 = false;
-            Enabled3 = false;
+            Enabled = true;
             OnPropertyChanged(nameof(Card1));
             OnPropertyChanged(nameof(Card2));
             OnPropertyChanged(nameof(Card3));
