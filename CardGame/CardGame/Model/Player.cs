@@ -109,6 +109,36 @@ namespace CardGame.Model
             GenerateCurrentHand();
 
         }
+        public void AddCardToDeck(Card card)
+        {
+            Card[] newCards = new Card[_cards.Length + 1];
 
+            for (int i = 0; i < _cards.Length; i++)
+            {
+                newCards[i] = _cards[i];
+            }
+
+            newCards[newCards.Length - 1] = card;
+            _cards = newCards;
+        }
+        public void AddShield(int index) 
+        {
+            _shield += index;
+            OnPropertyChanged(nameof(Health));
+        }
+        public void AddHealth(int index)
+        {
+            _health += index;
+            if(_health > _maxHealth)
+            {
+                _health = _maxHealth;
+            }
+            OnPropertyChanged(nameof(Health));
+        }
+        public void IncreaseMaxHealth(int index)
+        {
+            _maxHealth += index;
+            OnPropertyChanged(nameof(Health));
+        }
     }
 }
