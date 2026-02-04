@@ -13,7 +13,7 @@ namespace CardGame.Model
         static Random r = new Random();
         private string[] attributes = { "Vicious", "Cursed", "Ravenous", "Corrupted", "Abyssal", "Infernal" };
 
-        private string[] enemyType = { "Slime", "Skeleton", "Cultist", "Golem", "Zombie"};
+        private string[] enemyType = { "Slime", "Skeleton", "Cultist", "Golem", "Zombie" };
 
         public Minion()
         {
@@ -23,9 +23,9 @@ namespace CardGame.Model
             GenerateDeck();
             PickNextCard();
         }
-        private void GenerateStats() 
+        private void GenerateStats()
         {
-            _name = r.Next(attributes.Length)+ " " + r.Next(enemyType.Length);
+            _name = r.Next(attributes.Length) + " " + r.Next(enemyType.Length);
             _health = r.Next(20, 50);
             int which = r.Next(0, 1);
             if (which == 0)
@@ -33,18 +33,25 @@ namespace CardGame.Model
                 _shield = 0;
             }
             else { _shield = 5; }
+            _maxHealth = _health;
         }
 
         private void GenerateDeck()
         {
-            _cards[0] = new Card("Basic Attack", Card.Actions.Attack, 5);
-            _cards[1] = new Card("Basic Heal", Card.Actions.Heal, 3);
-            _cards[2] = new Card("Basic Shield", Card.Actions.Shield, 3);
+            _cards[0] = new Card("Basic Attack", Card.Actions.Attack, r.Next(4, 10));
+            _cards[1] = new Card("Basic Heal", Card.Actions.Heal, r.Next(2, 5));
+            _cards[2] = new Card("Basic Shield", Card.Actions.Shield, r.Next(2, 8));
         }
 
         private void PickNextCard()
         {
             _nextCard = _cards[r.Next(_cards.Length)];
+            //ez allitolag ujra generalja ha a választott kártya „Heal” action és az Enemy "health” egyenlő a "maxHealth” –el
+            do
+            {
+                _nextCard = _cards[r.Next(_cards.Length)];
+            }
+            while (_nextCard.Action == Card.Actions.Heal && _health == _maxHealth);
 
             OnPropertyChanged(nameof(NextCard));
             OnPropertyChanged(nameof(NextMove));
@@ -52,37 +59,58 @@ namespace CardGame.Model
 
         public void UseCard()
         {
-            if(_nextCard.Action == Card.Actions.Heal)
+            if (!_dead)
             {
-                _health += _nextCard.Value;
-            }
-            else if(_nextCard.Action == Card.Actions.Shield)
-            {
-                _shield += _nextCard.Value;
-            }
+                if (_nextCard.Action == Card.Actions.Heal)
+                {
+                    _health += _nextCard.Value;
 
-            OnPropertyChanged(nameof(Health));
-            PickNextCard();
+                    if (_health > _maxHealth)
+                    {
+                        _health = _maxHealth;
+                    }
+                }
+                else if (_nextCard.Action == Card.Actions.Shield)
+                {
+                    _shield += _nextCard.Value;
+                }
 
+                OnPropertyChanged(nameof(Health));
+                PickNextCard();
+            }
         }
 
         public void Damage(int damage)
         {
-            
-                int dmgleft = 0;
-                if (_shield >= damage) {
-                    
-                    _shield -= damage;
+            if (!_dead)
+            {
+                int dmgleft = damage;
+
+                if (_shield >= dmgleft)
+                {
+                    _shield -= dmgleft;
+                    dmgleft = 0;
                 }
                 else
                 {
-                    dmgleft = damage - _shield;
+                    dmgleft -= _shield;
                     _shield = 0;
-                    _health -= dmgleft;
-                    if (_health < 0) _health = 0;
                 }
-            
-            OnPropertyChanged(nameof(Health));
+
+                if (dmgleft > 0)
+                {
+                    _health -= dmgleft;
+
+                    if (_health <= 0)
+                    {
+                        _health = 0;
+                        _dead = true;
+                    }
+                }
+
+                OnPropertyChanged(nameof(Health));
+            }
+
         }
 
     }
