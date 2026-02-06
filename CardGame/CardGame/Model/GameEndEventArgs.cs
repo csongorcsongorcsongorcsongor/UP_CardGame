@@ -12,7 +12,7 @@ namespace CardGame.Model
         public bool EnemyDead { get; }
         public bool BossDead { get; }
 
-        GameEndEventArgs(bool playerDead, bool enemyDead, bool bossDead)
+        public GameEndEventArgs(bool playerDead, bool enemyDead, bool bossDead)
         {
             PlayerDead = playerDead;
             EnemyDead = enemyDead;

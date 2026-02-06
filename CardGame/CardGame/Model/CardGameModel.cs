@@ -17,6 +17,7 @@ namespace CardGame.Model
 
         public event EventHandler CardUseEvent;
         public event EventHandler NextRoundEvent;
+        public event EventHandler<GameEndEventArgs> GameEndEvent;
 
         
         public CardGameModel(Player player, Minion minion) 
@@ -50,6 +51,11 @@ namespace CardGame.Model
             }
             _player.UseCard(cardIndex);
             CardUseEvent?.Invoke(this, EventArgs.Empty);
+            if (_player.Dead || _minion.Dead)
+            {
+                GameEndEvent?.Invoke(this, new GameEndEventArgs(_player.Dead, _minion.Dead, false));
+                _minion = new Minion();
+            }
         }
 
         public void NextRound()
