@@ -15,7 +15,10 @@ namespace CardGame.Model
         public Player Player { get { return _player; } }
         public NavigationChoice Choice1 { get { return _choice1; } }
         public NavigationChoice Choice2 { get { return _choice2; } }
-
+        public NavigationModel(Player player)
+        {
+            _player = player;
+        }
         public void PickChoice(int index)
         {
             if (index == 1)

@@ -44,26 +44,25 @@ namespace CardGame.Model
             }
         }
 
-        public void UseCard(int index) {
+        public void UseCard(int index)
+        {
             if (!_dead)
             {
+
                 if (_currentHand[index].Action == Card.Actions.Heal)
                 {
-                    _health += _nextCard.Value;
-
-                    if (_health > _maxHealth)
-                    {
+                    _health += _currentHand[index].Value; 
+                    if (_health > _maxHealth) 
                         _health = _maxHealth;
-                    }
-                    OnPropertyChanged(nameof(_health));
-                    _currentHand[index] = new Card("", Card.Actions.Empty, 0);
                 }
                 else if (_currentHand[index].Action == Card.Actions.Shield)
                 {
-                    _shield += _nextCard.Value;
-                    OnPropertyChanged(nameof(_shield));
-                    _currentHand[index] = new Card("", Card.Actions.Empty, 0);
+                    _shield += _currentHand[index].Value; 
                 }
+
+                OnPropertyChanged(nameof(Health));
+
+                _currentHand[index] = new Card("", Card.Actions.Empty, 0);
             }
         }
         public void Damage(int damage) {
