@@ -13,19 +13,19 @@ namespace CardGame.ViewModel
         private bool _medium { get; set; }
         private bool _hard { get; set; }
 
-        public bool Easy { get { return _easy; } set; }
-        public bool Medium { get { return _medium; } set; }
-        public bool Hard { get { return _hard; } set; }
+        public bool Easy { get { return _easy; } set { _easy = value;  OnPropertyChanged(nameof(Easy)); } }
+        public bool Medium { get { return _medium; } set { _medium = value; OnPropertyChanged(nameof(Medium)); } }
+        public bool Hard { get { return _hard; } set { _hard = value; OnPropertyChanged(nameof(Hard)); } }
         public double Difficulty { get ; private set; }
 
-        public RelayCommand<string> SetDifficulty { get; }
+        public RelayCommand<string> SetDifficultyCommand { get; }
         public RelayCommand PlayCommand { get; }
 
         public event EventHandler<EventArgs> StartGameEvent;
 
         public MenuViewModel() {
             ChangeDifficulty("Medium");
-            SetDifficulty = new RelayCommand<string>(ChangeDifficulty);
+            SetDifficultyCommand = new RelayCommand<string>(ChangeDifficulty);
             PlayCommand = new RelayCommand(() =>
                 StartGameEvent?.Invoke(this, EventArgs.Empty)
             );

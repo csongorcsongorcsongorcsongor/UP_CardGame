@@ -71,7 +71,7 @@ namespace CardGame.ViewModel
                 OnPropertyChanged(nameof(Health));
             }
         }
-        private void PickNextCard()
+        protected void PickNextCard()
         {
             _nextCard = _cards[r.Next(_cards.Length)];
             //ez allitolag ujra generalja ha a választott kártya „Heal” action és az Enemy "health” egyenlő a "maxHealth” –el

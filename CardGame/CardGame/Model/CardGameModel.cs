@@ -66,15 +66,16 @@ namespace CardGame.Model
                 if (Rounds == 5)
                 {
                     _enemy = new FinalBoss(_difficulty);
+                    Rounds++;
                 }
-                else if (Rounds != 5) {
+                else if(Rounds <= 5) {
                     _enemy = new Minion(_difficulty);
                     Rounds++;
                 }
                 
             }
             if (_enemy.Dead) {
-                _score += _enemy.maxHP * 100 * _difficulty;
+                _score += (int)(_enemy.MaxHealth * 100 * _difficulty);
             }
         }
 

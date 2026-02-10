@@ -19,6 +19,7 @@ namespace CardGame.Model
             _difficulty = difficulty;
             GenerateStats();
             GenerateDeck();
+            PickNextCard();
 
         }
         private void GenerateStats()
@@ -37,11 +38,11 @@ namespace CardGame.Model
         private void GenerateDeck()
         {
             _cards[0] = new Card("Basic Attack", Card.Actions.Attack, (int)(r.Next(7, 12) * _difficulty));
-            _cards[0] = new Card("Heavy Attack", Card.Actions.Attack, (int)(r.Next(10, 15) * _difficulty));
-            _cards[1] = new Card("Basic Heal", Card.Actions.Heal, (int)(r.Next(7, 10) * _difficulty));
-            _cards[1] = new Card("Cursed Heal", Card.Actions.Heal, (int)(r.Next(10, 15) * _difficulty));
-            _cards[2] = new Card("Basic Shield", Card.Actions.Shield, (int)(r.Next(7, 10) * _difficulty));
-            _cards[2] = new Card("Heavy Shield", Card.Actions.Shield, (int)(r.Next(10, 15) * _difficulty));
+            _cards[1] = new Card("Heavy Attack", Card.Actions.Attack, (int)(r.Next(10, 15) * _difficulty));
+            _cards[2] = new Card("Basic Heal", Card.Actions.Heal, (int)(r.Next(7, 10) * _difficulty));
+            _cards[3] = new Card("Cursed Heal", Card.Actions.Heal, (int)(r.Next(10, 15) * _difficulty));
+            _cards[4] = new Card("Basic Shield", Card.Actions.Shield, (int)(r.Next(7, 10) * _difficulty));
+            _cards[5] = new Card("Heavy Shield", Card.Actions.Shield, (int)(r.Next(10, 15) * _difficulty));
         }
     }
 }

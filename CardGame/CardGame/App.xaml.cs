@@ -50,9 +50,7 @@ namespace CardGame
         private void StartGame(object sender, EventArgs e)
         {
             _player = new Player();
-            Minion minion = new Minion();
-
-            _model = new CardGameModel(_player, minion);
+            _model = new CardGameModel(_player, _menuViewModel.Difficulty);
             _viewModel = new CardGameViewModel(_model);
             _combatPage = new CombatPage();
 

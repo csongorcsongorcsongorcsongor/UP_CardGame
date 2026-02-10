@@ -24,7 +24,7 @@ namespace CardGame.ViewModel
         }
 
         public Player Player { get { return _model.player; } }
-        public Entity Enemy { get { return _model.minion; } }
+        public Entity Enemy { get { return _model.Enemy; } }
 
         public Card Card1 { get { return _model.player.Card1; } }
         public Card Card2 { get { return _model.player.Card2; } }
@@ -50,7 +50,8 @@ namespace CardGame.ViewModel
             Enabled = true;
         }
         private void model_CardUse(object? s ,EventArgs e) {
-            Enabled = true;
+            Enabled = false;
+            OnPropertyChanged(nameof(Enabled));
             OnPropertyChanged(nameof(Card1));
             OnPropertyChanged(nameof(Card2));
             OnPropertyChanged(nameof(Card3));

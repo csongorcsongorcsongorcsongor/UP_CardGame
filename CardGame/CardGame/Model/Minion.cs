@@ -25,7 +25,7 @@ namespace CardGame.Model
             _difficulty = difficulty;
             GenerateStats();
             GenerateDeck();
-
+            PickNextCard();
         }
         private void GenerateStats()
         {

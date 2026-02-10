@@ -20,6 +20,6 @@
         <Button Grid.Row="1" Command="{Binding SetDifficultyCommand}" CommandParameter="Easy" IsEnabled="{Binding Easy}" >Easy</Button>
         <Button Grid.Row="2" Command="{Binding SetDifficultyCommand}" CommandParameter="Medium" IsEnabled="{Binding Medium}" >Medium</Button>
         <Button Grid.Row="3" Command="{Binding SetDifficultyCommand}" CommandParameter="Hard" IsEnabled="{Binding Hard}" >Hard</Button>
-        <Button Grid.Row="4 " Command="{Binding PLayCommand}">Play</Button>
+        <Button Grid.Row="4 " Command="{Binding PlayCommand}">Play</Button>
     </Grid>
 </Page>
