@@ -24,13 +24,15 @@ namespace CardGame.ViewModel
         }
 
         public Player Player { get { return _model.player; } }
-        public Minion Enemy { get { return _model.minion; } }
+        public Entity Enemy { get { return _model.Enemy; } }
 
         public Card Card1 { get { return _model.player.Card1; } }
         public Card Card2 { get { return _model.player.Card2; } }
         public Card Card3 { get { return _model.player.Card3; } }
         public RelayCommand<object> UseCardCommand { get; }
         public RelayCommand NextRoundCommand { get; }
+
+        public string UntilBoss { get {return (5 - _model.Rounds).ToString() ; } set; }
 
         public CardGameViewModel(CardGameModel model) 
         {
@@ -48,7 +50,8 @@ namespace CardGame.ViewModel
             Enabled = true;
         }
         private void model_CardUse(object? s ,EventArgs e) {
-            Enabled = true;
+            Enabled = false;
+            OnPropertyChanged(nameof(Enabled));
             OnPropertyChanged(nameof(Card1));
             OnPropertyChanged(nameof(Card2));
             OnPropertyChanged(nameof(Card3));

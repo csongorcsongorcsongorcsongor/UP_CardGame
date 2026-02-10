@@ -65,6 +65,7 @@ namespace CardGame.Model
                 _currentHand[index] = new Card("", Card.Actions.Empty, 0);
             }
         }
+        /*
         public void Damage(int damage) {
             if (!_dead)
             {
@@ -95,6 +96,7 @@ namespace CardGame.Model
                 OnPropertyChanged(nameof(Health));
             }
         }
+        */
         public Card GetCard(int index) {
             return _currentHand[index];
         }

@@ -15,10 +15,14 @@ namespace CardGame.Model
 
         private string[] enemyType = { "Slime", "Skeleton", "Cultist", "Golem", "Zombie" };
 
-        public Minion()
+        private double _difficulty;
+
+        
+
+        public Minion(double difficulty)
         {
             _cards = new Card[3];
-
+            _difficulty = difficulty;
             GenerateStats();
             GenerateDeck();
             PickNextCard();
@@ -26,7 +30,7 @@ namespace CardGame.Model
         private void GenerateStats()
         {
             _name = r.Next(attributes.Length) + " " + r.Next(enemyType.Length);
-            _health = r.Next(20, 50);
+            _health = (int)(r.Next(20, 50) * _difficulty);
             int which = r.Next(0, 1);
             if (which == 0)
             {
@@ -38,79 +42,9 @@ namespace CardGame.Model
 
         private void GenerateDeck()
         {
-            _cards[0] = new Card("Basic Attack", Card.Actions.Attack, r.Next(4, 10));
-            _cards[1] = new Card("Basic Heal", Card.Actions.Heal, r.Next(2, 5));
-            _cards[2] = new Card("Basic Shield", Card.Actions.Shield, r.Next(2, 8));
-        }
-
-        private void PickNextCard()
-        {
-            _nextCard = _cards[r.Next(_cards.Length)];
-            //ez allitolag ujra generalja ha a választott kártya „Heal” action és az Enemy "health” egyenlő a "maxHealth” –el
-            do
-            {
-                _nextCard = _cards[r.Next(_cards.Length)];
-            }
-            while (_nextCard.Action == Card.Actions.Heal && _health == _maxHealth);
-
-            OnPropertyChanged(nameof(NextCard));
-            OnPropertyChanged(nameof(NextMove));
-        }
-
-        public void UseCard()
-        {
-            if (!_dead)
-            {
-                if (_nextCard.Action == Card.Actions.Heal)
-                {
-                    _health += _nextCard.Value;
-
-                    if (_health > _maxHealth)
-                    {
-                        _health = _maxHealth;
-                    }
-                }
-                else if (_nextCard.Action == Card.Actions.Shield)
-                {
-                    _shield += _nextCard.Value;
-                }
-
-                OnPropertyChanged(nameof(Health));
-                PickNextCard();
-            }
-        }
-
-        public void Damage(int damage)
-        {
-            if (!_dead)
-            {
-                int dmgleft = damage;
-
-                if (_shield >= dmgleft)
-                {
-                    _shield -= dmgleft;
-                    dmgleft = 0;
-                }
-                else
-                {
-                    dmgleft -= _shield;
-                    _shield = 0;
-                }
-
-                if (dmgleft > 0)
-                {
-                    _health -= dmgleft;
-
-                    if (_health <= 0)
-                    {
-                        _health = 0;
-                        _dead = true;
-                    }
-                }
-
-                OnPropertyChanged(nameof(Health));
-            }
-
+            _cards[0] = new Card("Basic Attack", Card.Actions.Attack, (int)(r.Next(4, 10) * _difficulty));
+            _cards[1] = new Card("Basic Heal", Card.Actions.Heal, (int)(r.Next(2, 5) * _difficulty));
+            _cards[2] = new Card("Basic Shield", Card.Actions.Shield, (int)(r.Next(2, 8) * _difficulty));
         }
 
     }

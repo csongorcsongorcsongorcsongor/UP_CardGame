@@ -21,6 +21,9 @@ namespace CardGame
         private NavigationViewModel _navigationViewModel;
         private NavigationPage _navigationPage;
         private Player _player;
+
+        private MenuPage _menuPage;
+        private MenuViewModel _menuViewModel;
         public App()
         {
             Startup += App_Startup;
@@ -30,10 +33,24 @@ namespace CardGame
         {
             _window = new MainWindow();
 
-            _player = new Player();
-            Minion minion = new Minion();
+            _menuPage = new MenuPage();
+            _menuViewModel = new MenuViewModel();
 
-            _model = new CardGameModel(_player, minion);
+            _menuViewModel.StartGameEvent += StartGame;
+
+            _window.DataContext = _menuViewModel;
+            _window.Content = _menuPage;
+
+            _window.Show();
+
+
+            
+        }
+
+        private void StartGame(object sender, EventArgs e)
+        {
+            _player = new Player();
+            _model = new CardGameModel(_player, _menuViewModel.Difficulty);
             _viewModel = new CardGameViewModel(_model);
             _combatPage = new CombatPage();
 
@@ -46,8 +63,9 @@ namespace CardGame
 
             _window.DataContext = _viewModel;
             _window.Content = _combatPage;
-            _window.Show();
         }
+
+
         public void ChangeToCombat(object? sender, EventArgs e)
         {
             _viewModel.Enabled = true;
@@ -59,6 +77,10 @@ namespace CardGame
         {
             if (e.EnemyDead)
             {
+                if(_model.Rounds == 6)
+                {
+                    MessageBox.Show($"Nyertel :) {e.Score}");
+                }
                 _navigationViewModel.HasNotChosen = true;
                 _navigationModel.GenerateNewNavigation();
 
