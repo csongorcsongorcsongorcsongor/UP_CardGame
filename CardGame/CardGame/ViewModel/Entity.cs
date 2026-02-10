@@ -25,8 +25,9 @@ namespace CardGame.ViewModel
                 }
                 else {
                     return $"{_nextCard.Action}:{_nextCard.Value}";                    
-                }
-                    ; } }
+                }; 
+            } 
+        }
 
         public int MaxHealth { get {return _maxHealth ; } }
 
