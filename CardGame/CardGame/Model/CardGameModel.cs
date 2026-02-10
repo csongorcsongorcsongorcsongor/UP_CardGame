@@ -61,7 +61,7 @@ namespace CardGame.Model
             CardUseEvent?.Invoke(this, EventArgs.Empty);
             if (_player.Dead || _enemy.Dead)
             {
-                GameEndEvent?.Invoke(this, new GameEndEventArgs(_player.Dead, _enemy.Dead, false));
+                GameEndEvent?.Invoke(this, new GameEndEventArgs(_player.Dead, _enemy.Dead, _score));
                 
                 if (Rounds == 5)
                 {

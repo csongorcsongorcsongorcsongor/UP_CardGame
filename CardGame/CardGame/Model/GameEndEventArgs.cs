@@ -10,13 +10,13 @@ namespace CardGame.Model
     {
         public bool PlayerDead { get; }
         public bool EnemyDead { get; }
-        public bool BossDead { get; }
+        public int Score { get; set; }
 
-        public GameEndEventArgs(bool playerDead, bool enemyDead, bool bossDead)
+        public GameEndEventArgs(bool playerDead, bool enemyDead, int score)
         {
             PlayerDead = playerDead;
             EnemyDead = enemyDead;
-            BossDead = bossDead;
+            Score = score;
         }
     }
 }
