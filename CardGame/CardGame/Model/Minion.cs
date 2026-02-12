@@ -29,7 +29,7 @@ namespace CardGame.Model
         }
         private void GenerateStats()
         {
-            _name = r.Next(attributes.Length) + " " + r.Next(enemyType.Length);
+            _name = $"{attributes[r.Next(attributes.Length)]} {enemyType[r.Next(enemyType.Length)]}";
             _health = (int)(r.Next(20, 50) * _difficulty);
             int which = r.Next(0, 1);
             if (which == 0)

@@ -24,7 +24,7 @@ namespace CardGame.Model
         }
         private void GenerateStats()
         {
-            _name = $"{r.Next(attributes.Length)}";
+            _name = attributes[r.Next(attributes.Length)];
             _health = (int)(r.Next(80, 150) * _difficulty);
             int which = r.Next(0, 1);
             if (which == 0)

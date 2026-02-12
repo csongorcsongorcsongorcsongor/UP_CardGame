@@ -44,7 +44,7 @@ namespace CardGame.Model
         public void PlayerCardUse(object index)
         {
             int cardIndex;
-            if(index is string indexString)
+            if (index is string indexString)
             {
                 cardIndex = int.Parse(indexString);
             }
@@ -52,30 +52,35 @@ namespace CardGame.Model
             {
                 cardIndex = (int)index;
             }
+
             Card card = _player.GetCard(cardIndex);
-            if(card.Action == Card.Actions.Attack)
+            if (card.Action == Card.Actions.Attack)
             {
                 _enemy.Damage(card.Value);
             }
+
             _player.UseCard(cardIndex);
             CardUseEvent?.Invoke(this, EventArgs.Empty);
+
+            if (_enemy.Dead)
+            {
+                _score += (int)(_enemy.MaxHealth * 100 * _difficulty);
+            }
+
             if (_player.Dead || _enemy.Dead)
             {
                 GameEndEvent?.Invoke(this, new GameEndEventArgs(_player.Dead, _enemy.Dead, _score));
-                
+
                 if (Rounds == 5)
                 {
                     _enemy = new FinalBoss(_difficulty);
                     Rounds++;
                 }
-                else if(Rounds <= 5) {
+                else if (Rounds < 5)
+                {
                     _enemy = new Minion(_difficulty);
                     Rounds++;
                 }
-                
-            }
-            if (_enemy.Dead) {
-                _score += (int)(_enemy.MaxHealth * 100 * _difficulty);
             }
         }
 
