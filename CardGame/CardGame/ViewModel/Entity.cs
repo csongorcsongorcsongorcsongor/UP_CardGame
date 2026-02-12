@@ -11,7 +11,7 @@ namespace CardGame.ViewModel
     public abstract class Entity:ViewModelBase
     {
         Random r = new Random();
-        public string Name { get; set; }
+        public string Name { get { return _name; } }
         public string Health { get { return $"{_health}/{_maxHealth}+{_shield}"; } }
         public bool Dead { get { return _dead; }  }
         public Card NextCard

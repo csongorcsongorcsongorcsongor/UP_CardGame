@@ -28,9 +28,9 @@ namespace CardGame.Model
             for(int i = 0; i < 2; i++) { _cards[index++] = new Card("Basic Heal", Card.Actions.Heal, 2); }
             for(int i = 0; i < 2; i++) { _cards[index++] = new Card("Basic Shield", Card.Actions.Shield, 4); }
 
-            _cards[index++] = new Card("Basic Attack", Card.Actions.Attack, 20);
-            _cards[index++] = new Card("Basic Heal", Card.Actions.Heal, 10);
-            _cards[index++] = new Card("Basic Shield", Card.Actions.Shield, 8);
+            _cards[index++] = new Card("Advanced Attack", Card.Actions.Attack, 20);
+            _cards[index++] = new Card("Advanced Heal", Card.Actions.Heal, 10);
+            _cards[index++] = new Card("Advanced Shield", Card.Actions.Shield, 8);
 
         }
         public void GenerateCurrentHand() {
