@@ -1,5 +1,5 @@
 # UP_CardGame
 
 
-Csongor az egyik
-Milan a masik
+Ujvari Csongor
+Papp Milan Peter
